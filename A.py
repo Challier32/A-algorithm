@@ -1,4 +1,12 @@
 import heapq
+import math
+
+
+def manhattan_distance(a, b):
+    return abs(a.position[0] - b.position[0]) + abs(a.position[1] - b.position[1])
+
+def euclidian_distance(a, b):
+    return math.sqrt((a.position[0] - b.position[0])**2 + (a.position[1] - b.position[1])**2)
 
 class Node:
     """
@@ -26,7 +34,11 @@ class Node:
     # defining greater than for purposes of heap queue
     def __gt__(self, other):
         return self.f > other.f
-    
+
+"""
+Init grid.
+0 = empty, 1 = starting point, 2 = ending point (arrival)
+"""
 #maze = [[0, 0, 2], [0, 0, 0], [0, 0, 1]]
 maze = [[0, 1, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 2], [0, 0, 0, 0, 0]]
 #for i in maze :
@@ -97,7 +109,8 @@ def a_star(maze):
 
             # Create the f, g, and h values
             child.g = current_node.g + 1
-            child.h = abs(end_node.position[0] - child.position[0]) + abs(end_node.position[1] - child.position[1]) #distance de manhattan
+            "Distance type"
+            child.h = euclidian_distance(end_node, child)
             child.f = child.g + child.h
 
             # Child is already in the open list

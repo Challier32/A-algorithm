@@ -40,7 +40,12 @@ Init grid.
 0 = empty, 1 = starting point, 2 = ending point (arrival)
 """
 #maze = [[0, 0, 2], [0, 0, 0], [0, 0, 1]]
-maze = [[0, 1, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 2], [0, 0, 0, 0, 0]]
+maze = [[0, 1, 0, 0, 0],
+        [0, 0, 0, -1, -1],
+        [0, 0, 0, -1, 2],
+        [0, 0, 0, 0, 0]]
+no_rows = 4
+no_cols = 5
 #for i in maze :
     #print(i)
 
@@ -57,7 +62,7 @@ def a_star(maze):
     for i in range(len(maze)):
         for j in range(len(maze[i])):
             if maze[i][j]==1:
-                #print(f"({i},{j}) est le noeud de départ")
+                print(f"({i},{j}) est le noeud de départ")
                 start_node = Node(None, (i,j))
                 start_node.g = start_node.h = start_node.f = 0
             if maze[i][j]==2:
@@ -83,7 +88,7 @@ def a_star(maze):
         current_node = heapq.heappop(open_list)
         closed_list.append(current_node)
 
-        # Found the goal
+        # Found the goal ?
         if current_node == end_node:
             return return_path(current_node)
 
@@ -95,11 +100,23 @@ def a_star(maze):
             # Get node position
             node_position = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
 
+            # Make sure within range (check if within maze boundary)
+            if (node_position[0] > (no_rows - 1) or 
+                node_position[0] < 0 or 
+                node_position[1] > (no_cols -1) or 
+                node_position[1] < 0) :
+                continue
+
+            # Make sure walkable terrain
+            if maze[node_position[0]][node_position[1]] == -1:
+                continue
+
             # Create new node
             new_node = Node(current_node, node_position)
 
             # Append
             children.append(new_node)
+
         
         # Loop through children
         for child in children:
@@ -120,7 +137,7 @@ def a_star(maze):
             # Add the child to the open list
             heapq.heappush(open_list, child)
 
-    warn("Couldn't get a path to destination")
+    print("Couldn't get a path to destination")
     return None
 
 

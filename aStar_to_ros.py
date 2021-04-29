@@ -1,4 +1,4 @@
-#from aStar import aStar
+#import aStar
 import math
 from rostron_ia_ms.utils.world import World
 """
@@ -40,16 +40,15 @@ def RobotisInSquare(square):
 def distance (x, y, xa, ya):
   return math.sqrt(((xa-x)**2)+((ya-y)**2))
     
-def SquareArrival(x,y):
-    SquareMap[x][y]=2
     
 #aStar with the robot 0
 def main(args=None):
-    #BeginSquare
+    #BeginSquare with the current position of robot 0
     s = pose_to_square(World().allies[0].pose.position.x, World().allies[0].pose.position.y)
     SquareMap[s[0]][s[1]]=1
     
-    SquareArrival(12,12)
+    #Square Arrival
+    SquareMap[32][21]=2
 
     #All obstacles
     for i in range(len(SquareMap)):
@@ -59,8 +58,12 @@ def main(args=None):
     # Create the path to SquareArrival
     path = a_star(SquareMap)
 
-    # There is a moveTo to every square of the path
-    # The robot will go to every square one by one (without interuption)
+    #Transform path with squares in path with poses
+    for i in range(len(path)) : 
+        path[i]= square_to_pose(path[i])
+
+    # There is a moveTo to every poses of the path
+    # The robot will go to every poses(squares) one by one (without interuption)
     moveTo(path)
     
     

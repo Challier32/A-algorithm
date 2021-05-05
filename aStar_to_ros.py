@@ -22,13 +22,13 @@ def square_to_pose(x, y):
 # if robot is in a square : square = -1
 def RobotisInSquare(square):
     radius=0.085
-    distRobot= 6+radius
-    pose= square_to_pose(square)
+    distRobot= 0.06+radius
+    pose= square_to_pose(square[0],square[1])
     for i in range(6):
         x = World().allies[i].pose.position.x
         y = World().allies[i].pose.position.y
-        xO = World().allies[i].pose.position.x
-        yO = World().allies[i].pose.position.y
+        xO = World().opponents[i].pose.position.x
+        yO = World().opponents[i].pose.position.y
         if distance(x,y,pose[0],pose[1])<distRobot or distance(xO,yO,pose[0],pose[1])<distRobot : 
             if i!=0:
                 SquareMap[square[0]][square[1]]= -1  #-1 for obstacles
@@ -53,7 +53,7 @@ def main(args=None):
     #All obstacles
     for i in range(len(SquareMap)):
         for j in range(len(SquareMap[i])):
-            RobotisInSquare(SquareMap[i][j])
+            RobotisInSquare((i,j)))
 
     # Create the path to SquareArrival
     path = a_star(SquareMap)

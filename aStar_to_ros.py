@@ -1,11 +1,6 @@
 #import aStar
 import math
 from rostron_ia_ms.utils.world import World
-"""
-Project not finished
-In order to show you my current work
-I will push later a better version
-"""
 
 # Create a map of SSL
 SquareMap = [[0 for x in range(98)] for y in range(68)] 
@@ -53,14 +48,14 @@ def main(args=None):
     #All obstacles
     for i in range(len(SquareMap)):
         for j in range(len(SquareMap[i])):
-            RobotisInSquare((i,j)))
+            RobotisInSquare((i,j))
 
     # Create the path to SquareArrival
     path = a_star(SquareMap)
 
     #Transform path with squares in path with poses
     for i in range(len(path)) : 
-        path[i]= square_to_pose(path[i])
+        path[i]= square_to_pose(path[i][0],path[i][1])
 
     # There is a moveTo to every poses of the path
     # The robot will go to every poses(squares) one by one (without interuption)

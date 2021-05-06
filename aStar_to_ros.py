@@ -30,11 +30,8 @@ def RobotisInSquare(square):
             elif distance(x,y,pose[0],pose[1])>distRobot: #if robot not yellow and id=0
                 SquareMap[square[0]][square[1]]= -1 
 
-
-
 def distance (x, y, xa, ya):
   return math.sqrt(((xa-x)**2)+((ya-y)**2))
-    
     
 #aStar with the robot 0
 def main(args=None):
@@ -59,6 +56,6 @@ def main(args=None):
 
     # There is a moveTo to every poses of the path
     # The robot will go to every poses(squares) one by one (without interuption)
-    moveTo(path)
+    MoveTo(path)
     
     
